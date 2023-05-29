@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import {
+  Alert,
   Button,
   Image,
   Pressable,
@@ -9,7 +10,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import Header from "../components/Header";
@@ -29,6 +30,7 @@ const HomeScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation();
+  const route = useRoute();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -55,6 +57,29 @@ const HomeScreen = () => {
       ),
     });
   }, []);
+
+  const searchPlaces = (place) => {
+    if (!place || !selectedDate) {
+      Alert.alert("Invalid Details", "Select all the details", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
+    }
+
+    if (place && selectedDate) {
+      navigation.navigate("Places", {
+        rooms,
+        adults,
+        children,
+        selectedDate,
+        place,
+      });
+    }
+  };
 
   const customButton = (onConfirm) => {
     return (
@@ -98,7 +123,9 @@ const HomeScreen = () => {
             >
               <Feather name="search" size={24} color="#000" />
               <TextInput
-                placeholder="Enter your destination"
+                placeholder={
+                  route?.params ? route.params.input : "Enter your destination"
+                }
                 placeholderTextColor="#000"
               />
             </Pressable>
@@ -183,6 +210,7 @@ const HomeScreen = () => {
                 paddingVertical: 15,
                 backgroundColor: "#2a52be",
               }}
+              onPress={() => searchPlaces(route?.params?.input)}
             >
               <Text
                 style={{

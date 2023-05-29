@@ -9,6 +9,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import SearchScreen from "./screens/SearchScreen";
+import PlacesScreen from "./screens/PlacesScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,6 +105,7 @@ const StackNavigator = () => {
           component={SearchScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="Places" component={PlacesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

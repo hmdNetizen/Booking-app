@@ -9,6 +9,8 @@ import {
   TextInput,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import SearchResults from "../components/SearchResults";
+import { data } from "../data";
 
 const SearchScreen = () => {
   const [inputText, setInputText] = useState("");
@@ -23,6 +25,11 @@ const SearchScreen = () => {
         />
         <Feather name="search" size={22} color="#000" />
       </View>
+      <SearchResults
+        data={data}
+        inputText={inputText}
+        setInputText={setInputText}
+      />
     </SafeAreaView>
   );
 };
