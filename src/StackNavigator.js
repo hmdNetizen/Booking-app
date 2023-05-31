@@ -10,6 +10,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import SearchScreen from "./screens/SearchScreen";
 import PlacesScreen from "./screens/PlacesScreen";
+import MapScreen from "./screens/MapScreen";
+import PropertyInfoScreen from "./screens/PropertyInfoScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -106,6 +108,16 @@ const StackNavigator = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Places" component={PlacesScreen} />
+        <Stack.Screen
+          name="Map"
+          component={MapScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Info"
+          component={PropertyInfoScreen}
+          // options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

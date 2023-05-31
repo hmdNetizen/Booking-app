@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Dimensions,
   Image,
@@ -6,19 +7,29 @@ import {
   Text,
   View,
 } from "react-native";
-import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const PropertyCard = (props) => {
   const { property, rooms, children, adults, selectedDate, availabeRooms } =
     props;
+  const navigation = useNavigation();
   const { width, height } = Dimensions.get("window");
 
   return (
     <View>
       <Pressable
         style={{ flexDirection: "row", margin: 15, backgroundColor: "#fff" }}
+        onPress={() =>
+          navigation.navigate("Info", {
+            property,
+            rooms,
+            children,
+            adults,
+            selectedDate,
+          })
+        }
       >
         <View>
           <Image
@@ -78,8 +89,36 @@ const PropertyCard = (props) => {
             Price for 1 Night and {adults} adults
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <Text>{property.oldPrice * adults}</Text>
-            <Text>{property.newPrice * adults}</Text>
+            <Text
+              style={{
+                textDecorationLine: "line-through",
+                color: "red",
+                fontSize: 18,
+              }}
+            >
+              {property.oldPrice * adults}
+            </Text>
+            <Text style={{ fontSize: 18 }}>{property.newPrice * adults}</Text>
+          </View>
+          <View style={{ marginTop: 6 }}>
+            <Text style={{ fontSize: 16, color: "gray" }}>Deluxe rooms</Text>
+            <Text style={{ fontSize: 16, color: "gray" }}>
+              Hotel room: 1 bed
+            </Text>
+          </View>
+          <View
+            style={{
+              paddingVertical: 2,
+              borderRadius: 5,
+              width: 150,
+              marginTop: 2,
+              backgroundColor: "#6082B6",
+              paddingHorizontal: 3,
+            }}
+          >
+            <Text style={{ textAlign: "center", color: "#fff" }}>
+              Limited Time deal
+            </Text>
           </View>
         </View>
       </Pressable>
