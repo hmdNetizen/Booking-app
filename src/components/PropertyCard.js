@@ -28,6 +28,7 @@ const PropertyCard = (props) => {
             children,
             adults,
             selectedDate,
+            availabeRooms,
           })
         }
       >

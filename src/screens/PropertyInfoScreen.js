@@ -19,10 +19,17 @@ const PropertyInfoScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
+  const {
+    property: { name, rooms, oldPrice, newPrice, rating, photos },
+    children,
+    adults,
+    selectedDate,
+  } = route.params;
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: route.params.property.name,
+      title: name,
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: "bold",
@@ -37,10 +44,8 @@ const PropertyInfoScreen = () => {
     });
   }, []);
 
-  const difference =
-    route.params.property.oldPrice - route.params.property.newPrice;
-  const offerPrice =
-    (Math.abs(difference) / route.params.property.oldPrice) * 100;
+  const difference = oldPrice - newPrice;
+  const offerPrice = (Math.abs(difference) / oldPrice) * 100;
 
   return (
     <>
@@ -49,7 +54,7 @@ const PropertyInfoScreen = () => {
           <Pressable
             style={{ flexDirection: "row", flexWrap: "wrap", margin: 10 }}
           >
-            {route.params.property.photos.slice(0, 5).map((photo, index) => (
+            {photos.slice(0, 5).map((photo, index) => (
               <View key={index} style={{ margin: 4 }}>
                 <Image
                   source={{ uri: photo.image }}
@@ -77,9 +82,7 @@ const PropertyInfoScreen = () => {
             }}
           >
             <View style={{ width: 200 }}>
-              <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-                {route.params.property.name}
-              </Text>
+              <Text style={{ fontSize: 25, fontWeight: "bold" }}>{name}</Text>
               <View
                 style={{
                   flexDirection: "row",
@@ -89,7 +92,7 @@ const PropertyInfoScreen = () => {
                 }}
               >
                 <MaterialIcons name="stars" size={24} color="green" />
-                <Text>{route.params.property.rating}</Text>
+                <Text>{rating}</Text>
                 <View
                   style={{
                     paddingVertical: 3,
@@ -135,7 +138,7 @@ const PropertyInfoScreen = () => {
               marginHorizontal: 12,
             }}
           >
-            Price for 1 Night and {route.params.adults} adults
+            Price for 1 Night and {adults} adults
           </Text>
           <View
             style={{
@@ -153,12 +156,10 @@ const PropertyInfoScreen = () => {
                 fontSize: 20,
               }}
             >
-              {route.params.property.oldPrice * route.params.adults}
+              {oldPrice * adults}
             </Text>
 
-            <Text style={{ fontSize: 20 }}>
-              {route.params.property.newPrice * route.params.adults}
-            </Text>
+            <Text style={{ fontSize: 20 }}>{newPrice * adults}</Text>
           </View>
           <View
             style={{
@@ -200,7 +201,7 @@ const PropertyInfoScreen = () => {
               <Text
                 style={{ fontSize: 16, fontWeight: "bold", color: "#007FFF" }}
               >
-                {route.params.selectedDate.startDate}
+                {selectedDate.startDate}
               </Text>
             </View>
             <View>
@@ -212,7 +213,7 @@ const PropertyInfoScreen = () => {
               <Text
                 style={{ fontSize: 16, fontWeight: "bold", color: "#007FFF" }}
               >
-                {route.params.selectedDate.endDate}
+                {selectedDate.endDate}
               </Text>
             </View>
           </View>
@@ -223,8 +224,7 @@ const PropertyInfoScreen = () => {
             <Text
               style={{ fontSize: 16, fontWeight: "bold", color: "#007FFF" }}
             >
-              {route.params.property.rooms.length} rooms {route.params.adults}{" "}
-              adults {route.params.children} children
+              {rooms.length} rooms {adults} adults {children} children
             </Text>
           </View>
           <Text
@@ -248,6 +248,19 @@ const PropertyInfoScreen = () => {
         </ScrollView>
       </SafeAreaView>
       <Pressable
+        onPress={() =>
+          navigation.navigate("Rooms", {
+            rooms,
+            oldPrice,
+            newPrice,
+            name,
+            children,
+            adults,
+            rating,
+            startDate: selectedDate.startDate,
+            endDate: selectedDate.endDate,
+          })
+        }
         style={{
           backgroundColor: "#6CB4EE",
           position: "absolute",
