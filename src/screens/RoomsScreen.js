@@ -15,6 +15,7 @@ const RoomsScreen = () => {
     oldPrice,
     newPrice,
     name,
+    rating,
     adults,
     children,
     startDate,
@@ -155,6 +156,7 @@ const RoomsScreen = () => {
               adults,
               startDate,
               endDate,
+              rating,
             })
           }
           style={{

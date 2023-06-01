@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const ConfirmationScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
 
-  const { name } = route.params;
-
-  console.log(route.params);
+  const { name, rating, startDate, endDate, rooms, adults, children } =
+    route.params;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -40,8 +40,8 @@ const ConfirmationScreen = () => {
           }}
         >
           <View>
-            <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-              {route.params.name}
+            <Text style={{ fontSize: 25, fontWeight: "bold", maxWidth: 200 }}>
+              {name}
             </Text>
             <View
               style={{
@@ -52,7 +52,7 @@ const ConfirmationScreen = () => {
               }}
             >
               <MaterialIcons name="stars" size={24} color="green" />
-              <Text>{route.params.rating}</Text>
+              <Text>{rating}</Text>
               <View
                 style={{
                   backgroundColor: "#003580",
@@ -103,7 +103,7 @@ const ConfirmationScreen = () => {
             <Text
               style={{ fontSize: 16, fontWeight: "bold", color: "#007FFF" }}
             >
-              {route.params.startDate}
+              {startDate}
             </Text>
           </View>
 
@@ -114,7 +114,7 @@ const ConfirmationScreen = () => {
             <Text
               style={{ fontSize: 16, fontWeight: "bold", color: "#007FFF" }}
             >
-              {route.params.endDate}
+              {endDate}
             </Text>
           </View>
         </View>
@@ -123,13 +123,12 @@ const ConfirmationScreen = () => {
             Rooms and Guests
           </Text>
           <Text style={{ fontSize: 16, fontWeight: "bold", color: "#007FFF" }}>
-            {route.params.rooms} rooms {route.params.adults} adults{" "}
-            {route.params.children} children
+            {rooms} rooms {adults} adults {children} children
           </Text>
         </View>
 
         <Pressable
-          onPress={confirmBooking}
+          // onPress={confirmBooking}
           style={{
             backgroundColor: "#003580",
             width: 120,

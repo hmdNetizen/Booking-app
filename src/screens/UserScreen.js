@@ -1,6 +1,13 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  Alert,
+} from "react-native";
 
 const UserScreen = () => {
   const route = useRoute();
@@ -11,8 +18,16 @@ const UserScreen = () => {
   const [email, setEmail] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
 
-  const { adults, oldPrice, newPrice, name, children, startDate, endDate } =
-    route.params;
+  const {
+    adults,
+    oldPrice,
+    newPrice,
+    name,
+    rating,
+    children,
+    startDate,
+    endDate,
+  } = route.params;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -31,6 +46,36 @@ const UserScreen = () => {
       },
     });
   }, []);
+
+  const finalStep = () => {
+    if (!firstName || !lastName || !email || !phoneNo) {
+      Alert.alert(
+        "Invalide Details",
+        "Please ente all the fields",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ],
+        { cancelable: false }
+      );
+    }
+    if (firstName && lastName && email && phoneNo) {
+      navigation.navigate("Confirmation", {
+        oldPrice,
+        newPrice,
+        name,
+        rating,
+        children,
+        adults,
+        startDate,
+        endDate,
+      });
+    }
+  };
 
   return (
     <>
@@ -107,17 +152,7 @@ const UserScreen = () => {
           <Text>You Saved {oldPrice - newPrice} rupees</Text>
         </View>
         <Pressable
-          onPress={() =>
-            navigation.navigate("Confirmation", {
-              oldPrice,
-              newPrice,
-              name,
-              children,
-              adults,
-              startDate,
-              endDate,
-            })
-          }
+          onPress={finalStep}
           style={{ backgroundColor: "#007FFF", padding: 10, borderRadius: 5 }}
         >
           <Text style={{ textAlign: "center", color: "white", fontSize: 15 }}>
