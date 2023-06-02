@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,10 +11,57 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
+import { auth } from "../../firebase.config";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigation = useNavigation();
+
+  const login = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials._tokenResponse.email;
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    try {
+      const unsubscribe = auth.onAuthStateChanged((authUser) => {
+        if (authUser) {
+          navigation.navigate("Main");
+        }
+      });
+
+      return unsubscribe;
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  //   console.log(userCredentials.user.stsTokenManager.accessToken);
+  //   AsyncStorage.setItem(
+  //     "tokenUser",
+  //     userCredentials.user.stsTokenManager.accessToken
+  //   );
+
+  //   useEffect(() => {
+  //     const getMyObject = async () => {
+  //       try {
+  //         const jsonValue = await AsyncStorage.getItem("tokenUser");
+  //         console.log("jsonValue");
+  //         if (jsonValue) {
+  //           navigation.replace("Main");
+  //         }
+  //       } catch (e) {
+  //         console.log(e);
+  //       }
+  //     };
+  //     getMyObject();
+  //   }, [token]);
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView>
@@ -74,7 +123,7 @@ const LoginScreen = () => {
           </View>
         </View>
         <Pressable
-          // onPress={login}
+          onPress={login}
           style={{
             width: 200,
             backgroundColor: "#003580",
@@ -94,6 +143,14 @@ const LoginScreen = () => {
             }}
           >
             Login
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => navigation.navigate("Register")}
+          style={{ marginTop: 20 }}
+        >
+          <Text style={{ textAlign: "center", color: "gray", fontSize: 17 }}>
+            Don't have an account? Sign up
           </Text>
         </Pressable>
       </KeyboardAvoidingView>
