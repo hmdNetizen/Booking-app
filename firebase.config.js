@@ -1,15 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { FIREBASE_API_KEY, FIREBASE_APP_ID } from "@env";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB38kPwb0vQrB-nEVbX2h1bvQs9VnhegXw",
+  apiKey: FIREBASE_API_KEY,
   authDomain: "booking-project-7a088.firebaseapp.com",
   projectId: "booking-project-7a088",
   storageBucket: "booking-project-7a088.appspot.com",
   messagingSenderId: "246265704271",
-  appId: "1:246265704271:web:514124858eebb391cb9f3a",
+  appId: FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
